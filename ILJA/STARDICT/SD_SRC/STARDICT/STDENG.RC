@@ -1,0 +1,187 @@
+/* *************************************************************************
+                              STDRUS.RC
+    v2.0
+    Содержит описания языковых ресурсов для русской версии StarDict.
+    (c) В. Перов.
+************************************************************************* */
+
+#include <owl\window.rh>
+#include <owl\mdi.rh>
+#include "sd_defs.h"
+#include "stddef.h"
+
+idIcon ICON "sd.ico"
+
+mnuMainMenu MENU
+{
+ POPUP " &Dictionary "
+ {
+  MENUITEM "Dictionary &articles list...", cmShowArticleList
+  MENUITEM "Dictionary &themes list...", cmShowThemeList
+  MENUITEM SEPARATOR
+  MENUITEM "Article search on dictionary &keywords...", cmSearchKeyword
+  MENUITEM SEPARATOR
+  MENUITEM "&Previous article\tGray -", wmMoveBack
+  MENUITEM "&Next article\tGray +", wmMoveForward
+ }
+
+ POPUP " &Options "
+ {
+  MENUITEM "Article &font...", cmShowFonts
+  MENUITEM "Dictionary &preferences...", cmChangeLook
+  POPUP "&Dictionary messages language"
+  {
+   MENUITEM "&English language", cmMakeEnglish
+   MENUITEM "&Russaian language", cmMakeRussian, CHECKED
+  }
+
+ }
+
+ POPUP " &Window "
+ {
+  MENUITEM "&Cascade windows", CM_CASCADECHILDREN
+  MENUITEM "&Tile windows", CM_TILECHILDREN
+  MENUITEM SEPARATOR
+  MENUITEM "&Close all articles", CM_CLOSECHILDREN
+ }
+
+ POPUP " &Help "
+ {
+  MENUITEM "&Help contents\tF1", cmAbout
+  MENUITEM SEPARATOR
+  MENUITEM "&About this program", cmAboutProgrammers
+ }
+
+ MENUITEM " E&xit ", cmQuitDict
+}
+
+// Подсказки:
+STRINGTABLE
+{
+ cmQuitDict, "Quit the dictionary"
+ cmShowArticleList -1, "Dictionary"
+ cmShowArticleList, "Articles list"
+ cmShowThemeList, "Themes list"
+ cmSearchKeyword, "Search on keywords"
+ cmShowFonts -1, "Options"
+ cmShowFonts, "Article font"
+ cmChangeLook, "Dictionary appearance"
+ cmMakeEnglish -1, "Dictionary messages language"
+ cmMakeEnglish, "English language"
+ cmMakeRussian, "Russian language"
+ cmAbout, "Dictionary information"
+ cmOpenHere, "Open article contents inside this window"
+ cmOpenNew, "Open article contents in new window"
+ wmMoveBack, "Previous article"
+ wmMoveForward, "Next article"
+}
+
+// Строки статуса и прочих выводов.
+STRINGTABLE
+{
+ stringStatus, "Star Dictionary v2.0"
+ stringAbout, "Dictionary information"
+ stringError, "StarDict 2.0 internal error. Trace to get information."
+ stringArtCap, "Article"
+ stringCancel, "Cancel"
+ stringLinkHere, "Open article contents inside this window"
+ stringLinkNew, "Open article contents in new window"
+ stringAR_CHOOSEART, "Open articles list dialog"
+ stringAR_CHOOSEART+1, "Open themes and articles list dialog"
+ stringAR_CHOOSEART+2, "Open search article on keyword dialog"
+ stringAR_CHOOSEART+3, "Do nothing"
+ stringAO_WIDEN, "Maximize article window"
+ stringAO_WIDEN+1, "Centre article window"
+ stringAO_WIDEN+2, "Never change window position"
+ stringBK_FLECK, "Choak stone"
+ stringBK_FLECK+1, "Gray stone"
+ stringBK_FLECK+2, "Firestorm sky"
+ stringBK_FLECK+3, "Window standard color"
+}
+
+dlgTheme DIALOG 7, 17, 319, 231
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Themes and articles list"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditTheme, 10, 14, 214, 12
+ LISTBOX idListThemes, 10, 40, 214, 44, LBS_HASSTRINGS | LBS_NOTIFY | WS_BORDER | LBS_USETABSTOPS | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ EDITTEXT idEditArticle, 10, 97, 296, 12
+ LISTBOX idListArticles, 11, 125, 296, 98, LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL | LBS_USETABSTOPS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Show article", IDOK, 241, 14, 60, 16
+ PUSHBUTTON "Cancel", IDCANCEL, 241, 35, 60, 16
+ LTEXT "Dictionary themes:", -1, 11, 28, 116, 9, NOT WS_GROUP
+ LTEXT "Theme:", -1, 11, 4, 82, 9, NOT WS_GROUP
+ LTEXT "Article:", -1, 11, 87, 129, 9, NOT WS_GROUP
+ LTEXT "Articles inside theme:", -1, 11, 114, 153, 9, NOT WS_GROUP
+ PUSHBUTTON "Help", idHelp, 241, 56, 60, 16
+}
+
+dlgArticle DIALOG 12, 20, 258, 210
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Articles list"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditArticle, 9, 15, 240, 12
+ LISTBOX idListArticles, 9, 42, 239, 140, LBS_HASSTRINGS | LBS_NOTIFY | WS_BORDER | LBS_USETABSTOPS | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Show article", IDOK, 9, 187, 60, 16
+ PUSHBUTTON "Cancel", IDCANCEL, 82, 187, 60, 16, WS_TABSTOP
+ LTEXT "Article:", -1, 9, 5, 77, 9
+ LTEXT "Articles list:", -1, 9, 30, 77, 9
+ PUSHBUTTON "Help", idHelp, 155, 187, 60, 16
+}
+
+dlgKeyword DIALOG 7, 17, 319, 231
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Article seacrh on keyword"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditTheme, 10, 14, 214, 12
+ LISTBOX idListThemes, 10, 40, 214, 44, LBS_NOTIFY | LBS_HASSTRINGS | LBS_USETABSTOPS | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ EDITTEXT idEditArticle, 10, 97, 296, 12
+ LISTBOX idListArticles, 11, 125, 296, 98, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS |  LBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Show article", IDOK, 240, 14, 60, 16
+ PUSHBUTTON "Cancel", IDCANCEL, 240, 35, 60, 16
+ LTEXT "Keywords list:", -1, 11, 28, 126, 9, NOT WS_GROUP
+ LTEXT "Keyword:", -1, 11, 4, 96, 9, NOT WS_GROUP
+ LTEXT "Article with keyword:", -1, 11, 87, 168, 9, NOT WS_GROUP
+ LTEXT "Articles list with keyword:", -1, 11, 114, 209, 9, NOT WS_GROUP
+ PUSHBUTTON "Help", idHelp, 240, 56, 60, 16
+}
+
+dlgAbout DIALOG 11, 19, 245, 197
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About this program"
+FONT 8, "MS Sans Serif"
+{
+ DEFPUSHBUTTON "OK", IDOK, 180, 171, 50, 16, BS_DEFPUSHBUTTON | NOT WS_TABSTOP
+ GROUPBOX "", -1, 9, 6, 226, 104, BS_GROUPBOX
+ LTEXT "StarDict 2.0", -1, 58, 21, 166, 19, WS_BORDER | WS_GROUP
+ LTEXT "%s\n\nRegistration number: %s\nNumber of installations left: %s", idTxtOwner, 21, 64, 203, 36, WS_BORDER | WS_GROUP
+ GROUPBOX "", -1, 9, 105, 226, 57, BS_GROUPBOX
+ CTEXT "Programm authors:", -1, 166, 112, 67, 11
+ LTEXT "Star dictionary texts: F. Rojansky", -1, 19, 130, 206, 11
+ LTEXT "Programming: I. Vladimirsky, V. Perov.", -1, 19, 142, 206, 11
+ ICON "idIcon", idIconID, 21, 21, 21, 20
+ LTEXT "Lisense on using this product has:", -1, 58, 51, 166, 10
+ GROUPBOX "", -1, 161, 105, 74, 19, BS_GROUPBOX
+}
+
+dlgChangeLook DIALOG 9, 21, 216, 128
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Dictionary preferences"
+FONT 8, "MS Sans Serif"
+{
+ COMBOBOX idAfterRun, 11, 18, 192, 51, CBS_DROPDOWNLIST | WS_TABSTOP
+ COMBOBOX idAfterOpen, 11, 47, 192, 51, CBS_DROPDOWNLIST | WS_TABSTOP
+ DEFPUSHBUTTON "OK", IDOK, 11, 101, 50, 16
+ PUSHBUTTON "Cancel", IDCANCEL, 71, 101, 50, 16
+ LTEXT "After dictionary runs:", -1, 11, 6, 147, 9
+ LTEXT "After article window opens:", -1, 11, 36, 101, 8
+ LTEXT "Background picture:", -1, 11, 65, 117, 8
+ COMBOBOX idBackgrounds, 11, 76, 115, 48, CBS_DROPDOWNLIST | WS_TABSTOP
+ CHECKBOX "Show tip help", idShowTips, 138, 76, 57, 12, BS_AUTOCHECKBOX | WS_TABSTOP
+ PUSHBUTTON "Help", idHelp, 131, 101, 50, 16
+}
+
+

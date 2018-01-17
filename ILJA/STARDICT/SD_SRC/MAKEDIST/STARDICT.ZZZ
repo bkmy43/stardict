@@ -1,0 +1,26 @@
+[StarDict]
+UserName=
+RegNum=
+InstLeft=4
+Language=1
+ARun=3
+AOpen=2
+Back=
+Fore=
+
+[Size]
+Max=1
+X=115
+Y=78
+Width=443
+Height=343
+
+[Font]
+BK=0
+Tips=1
+Color=0x0
+ColorLink=0x7f00
+ColorKeyw=0xff0000
+Charset=204
+Point=-19
+Face=Times New Roman

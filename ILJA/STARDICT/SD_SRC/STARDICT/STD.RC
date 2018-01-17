@@ -1,0 +1,64 @@
+/****************************************************************************
+STD.RC
+produced by Borland Resource Workshop
+*****************************************************************************/
+
+#include <owl\window.rh>
+#include <owl\mdi.rh>
+#include "sd_defs.h"
+#include "stddef.h"
+
+STRINGTABLE
+{
+  CM_CASCADECHILDREN-1, " "
+  CM_CASCADECHILDREN, " "
+  CM_CLOSECHILDREN, " "
+  CM_TILECHILDREN, " "
+}
+
+curStarDict  cursor  "cursor.cur"
+curHand      cursor  "hand.cur"
+curMSHand CURSOR "handms.cur"
+
+icoArticle ICON "article2.ico"
+icoArticle2 icon "article.ico"
+icoStarDict ICON "sd.ico"
+icoStarDict2 ICON "book.ico"
+icoFrame1 ICON "1fr.ico"
+icoFrame2 ICON "2fr.ico"
+icoFrame3 ICON "3fr.ico"
+icoFrame4 ICON "4fr.ico"
+icoFrame5 ICON "5fr.ico"
+icoFrame6 ICON "6fr.ico"
+
+bmpTriangle   BITMAP  "red_tri.bmp"
+bmpBack       BITMAP  "mv_bck.bmp"
+bmpForw       BITMAP  "mv_frw.bmp"
+bmpExit       BITMAP  "exit.bmp"
+bmpThemes     BITMAP  "themes.bmp"
+bmpArticles   BITMAP  "articles.bmp"
+bmpSearch     BITMAP  "search.bmp"
+bmpAbout      BITMAP  "about.bmp"
+bmpDrawing    BITMAP  "logo.bmp"
+
+bmpFon        BITMAP  "fleck.bmp"
+bmpFon+1      BITMAP  "fon.bmp"
+bmpFon+2      BITMAP  "light.bmp"
+
+accF1 ACCELERATORS
+{
+  VK_F1, idHelp, VIRTKEY
+}
+
+accMainMenu ACCELERATORS
+{
+  VK_F1, cmAbout, VIRTKEY
+  "x", cmQuitDict, ASCII, ALT
+  "X", cmQuitDict, ASCII, ALT
+  VK_SUBTRACT, wmMoveBack, VIRTKEY
+  VK_BACK, wmMoveBack, VIRTKEY
+  VK_ADD, wmMoveForward, VIRTKEY
+}
+
+
+

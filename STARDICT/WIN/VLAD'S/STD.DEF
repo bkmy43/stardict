@@ -1,0 +1,8 @@
+EXETYPE     WINDOWS
+description "StarDict Version 2.0"
+name        StarDict
+CODE        PRELOAD MOVEABLE DISCARDABLE
+DATA        PRELOAD MOVEABLE
+HEAPSIZE    20240
+STACKSIZE   20120
+

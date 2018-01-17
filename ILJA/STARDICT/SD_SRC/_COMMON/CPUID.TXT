@@ -1,0 +1,234 @@
+
+
+
+
+Robert Giannini wrote:
+> Can someone e-mail me some MS C code or Assembly code to be able to
+> detect what type of processor the program is running on ie.
+> 286, 386, 486, Pentium, Unknown ect.
+
+Well, all I can give you is the following code. It can determine
+the CPU type up to an i486. Pentiums and above will be reported
+as i486. I'm still looking for code to identify a Pentium CPU
+correctly.
+
+---------------------- cpuid.h ----------------------------------
+/******************************************************************************
+ *                                                                            *
+ * File:   cpuid   .h         Version  1.02            Date: 1996-07-26       *
+ *                                                                            *
+ * Copyright (C) 1991-1996 by kostis@acm.org (Kosta Kostis)                   *
+ *                                                                            *
+ ******************************************************************************
+ *                                                                            *
+ * History:                                                                   *
+ *     1996-07-26: KK V1.02                                                   *
+ *        - see cpuid.asm                                                     *
+ *                                                                            *
+ *****************************************************************************/
+
+/******************************************************************************
+
+        Function Return Values
+
+ *****************************************************************************/
+
+#define P_i486          8
+#define P_i386          7
+#define P_80286         6
+#define P_80186         5
+#define P_80188         4
+#define P_V30           3
+#define P_V20           2
+#define P_8086          1
+#define P_8088          0
+
+#define P_LAST          P_i486
+
+/******************************************************************************
+
+        Function Prototypes
+
+ *****************************************************************************/
+
+extern  int     CPUid (void) ;
+---------------------- cpuid.asm --------------------------------
+;  ***************************************************************************
+;  *                                                                         *
+;  * File:   CPUID   .ASM         Version  1.02            Date: 1996-07-26  *
+;  *                                                                         *
+;  * Copyright 1991-1996 by kostis@acm.org (Kosta Kostis)                    *
+;  *                                                                         *
+;  ***************************************************************************
+;  *                                                                         *
+;  * Function:                                                               *
+;  *     - returns CPU type                                                  *
+;  *                                                                         *
+;  ***************************************************************************
+;  *                                                                         *
+;  * Parameters:                                                             *
+;  *     - none                                                              *
+;  *                                                                         *
+;  ***************************************************************************
+;  *                                                                         *
+;  * History:                                                                *
+;  *     1996-07-26: KK V1.02                                                *
+;  *        - minor cosmetical changes                                       *
+;  *     1993-09-05: KK V1.01                                                *
+;  *        - added test for i486                                            *
+;  *     1991-11-15: KK V1.00                                                *
+;  *        - initial coding                                                 *
+;  *                                                                         *
+;  ***************************************************************************
+;
+; This small assembler function checks the CPU type and returns an int value
+; It's based on a sample program from Michael Tischer which was based on a
+; sample program from Intel and has been converted into it's current form by
+; kostis@acm.org (Kosta Kostis)
+;
+; int   CPUid (void)
+;
+
+.MODEL          SMALL,C
+
+.DATA
+
+; code values for CPUs
+
+P_i486          EQU     8
+P_i386          EQU     7
+P_80286         EQU     6
+P_80186         EQU     5
+P_80188         EQU     4
+P_V30           EQU     3
+P_V20           EQU     2
+P_8086          EQU     1
+P_8088          EQU     0
+
+; == Main Prog ==========================================================
+
+.CODE
+
+PUBLIC          CPUid                   ; int   CPUid (void)
+
+CPUid           PROC
+
+                pushf                   ; save flag register content
+
+; -- check for 80386/80286  -----------------------------------
+
+                xor     ax,ax           ; set AX to 0
+                push    ax              ; push on stack
+                popf                    ; restore as flag register
+                pushf                   ; push on stack again
+                pop     ax              ; restore as AX
+                and     ax,0F000h       ; keep bits 15 to 12
+                cmp     ax,0F000h       ; are all bits set?
+                jne     is_286          ; no, must be at least 80286
+                jmp     not_286         ; skip to below 80286 CPU
+
+; -- distinguish between 80386 and 80286  ---------------------
+
+is_286:         mov     dl,P_80286      ; it's for sure at least 80286
+                mov     ax,07000h       ;
+                push    ax              ; push 0x7000 on stack
+                popf                    ; restore as flag register
+                pushf                   ; push on stack
+                pop     ax              ; restore as AX
+                and     ax,07000h       ; keep bits 14 to 12
+                jne     is_386          ; are all bits cleared?
+                jmp     pend            ; YES --> it's an 80286
+
+is_386:         inc     dl              ; no, it's an 80386 or above
+
+; -- distinguish between i386 and i486 ------------------------
+
+                mov     bx,sp           ; save original value
+                and     sp,not 3        ; make sure we don't generate
+                                        ; an alignment fault
+
+.386
+
+                pushfd                  ; check out flag register
+                pop     eax             ;
+
+                mov     ecx,eax         ; make a safe copy in ecx
+                xor     eax,40000h      ; try to toggle bit #18
+
+                push    eax             ; from eax to flags and back
+                popfd                   ;
+                pushfd                  ;
+                pop     eax             ;
+
+                xor     eax,ecx         ; check AC bit
+                jz      done_386        ; if it can't be changed, it's i386
+
+                inc     dl              ; it's i486 or better
+
+done_386:       push    ecx             ; restore flags to original state
+                popfd                   ;
+
+.8086
+                mov     sp,bx           ; restore stack pointer
+
+                jmp     pend            ; test finished
+
+; -- check for 80186 or 80188  --------------------------------
+
+not_286:        mov     dl,P_80188      ; load code for 80188
+                mov     al,0ffh         ; set all bits in AL
+                mov     cl,021h         ; set # of shift ops in CL
+                shr     al,cl           ; shift right AL, CL times
+                jne     t88_86          ; must be 80188 or 80186
+
+; -- check for NEC V20 or V30  --------------------------------
+
+                mov     dl,P_V20        ; load code for NEC V20
+                sti                     ; enable interrupts
+                push    si              ; save SI
+                mov     si,0            ; begin with first byte in ES
+                mov     cx,0ffffh       ; read complete segment
+                rep     lods byte ptr es:[si]   ; REP with segment override
+                                                ; only works with NEC V20, V30
+                pop     si              ; restore SI
+                or      cx,cx           ; complete segment read?
+                je      t88_86          ; YES --> is V20 or V30
+
+                mov     dl,P_8088       ; no --> must be an 8088 or 8086
+                                                                        
+; -- distinguish between ...88 or ...86, V20 or V30 -----------
+                                                                        
+t88_86:         push    cs              ; push CS on Stack
+                pop     es              ; restore as ES
+                std                     ; count backwards for string commands
+                mov     di,offset q_end ;
+                mov     al,0fbh         ; op code for "STI"
+                mov     cx,3            ; execute string command 3 times
+                cli                     ; disable interrupts
+                rep     stosb           ;
+                cld                     ; count forwards for string commands
+                nop                     ; dummy codes to fill queue
+                nop                     ;
+                nop                     ;
+
+                inc     dx              ; increment processorcode
+                nop                     ;
+q_end:          sti                     ; enable interrupts again
+
+; -------------------------------------------------------------
+
+pend:           popf                    ; restore inital flag register
+                xor     ah,ah           ;
+                mov     al,dl           ; cpu id is function's return value
+
+                ret                     ;
+
+CPUid           ENDP                    ;
+
+                END                     ;
+
+-- 
+  kostis@acm.org, kosta@live.robin.de, kosta@blues.sub.de
+  Kosta Kostis, Talstr. 25, D-63322 Rodermark, Germany
+  http://ourworld.compuserve.com/homepages/kosta/
+

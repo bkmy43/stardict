@@ -1,0 +1,72 @@
+// В данном файле находятся описания типов данных
+// для астрологической энциклопедии
+#include <fcntl.h>
+#include <conio.h>
+#include <process.h>
+#include <string.h>
+
+#include "rw.h"
+#define _PRINT_ALLOWED
+typedef    int  filehand ;
+
+class TRef
+      {
+         public:
+          char code;
+          int  num;
+
+          TRef( );
+          TRef( char c, int n) { code = c; num = n; };
+          void clear( void ) { code=0; num=0; };
+      };
+
+class TArticle       // Статья
+    {
+       public :
+	  char artname[256];          // Название
+          int artnum;
+          char* artline[MAX_LINES];
+          TRef refTable[256];    // Таблица ссылок на другие статьи и темы
+	  BufRead *pbrIndex;     // Указатели на буферы файлов
+	  BufRead *pbrData;     // с данными
+
+       public:
+	  TArticle( BufRead  *Index, BufRead *Data );
+	  virtual ~TArticle( );
+
+          virtual void DelOldInfo();
+	  virtual int ChangeArt( int num );
+	  // ф-я читает информацию о
+	  // статье N num и заполняет данные класса
+	  // в случае ошибки возвращает ее код
+	  int ReadNamePosition ( int num, long* position );
+	  // Ф-я читает название статьи N num и адрес
+	  // по которому ее текст можно найти в файле data.dat
+	  int ReadNumPosition ( char* name, long* position );
+	  // Ф-я читает номер статьи name и адрес
+	  // по которому ее текст можно найти в файле data.dat
+	  int ReadTextRef( long position );
+	  // Ф-я читает текст статьи и заполняет
+	  // таблицу ссылок
+
+	 // данная функция устарела и не используется в этой версии
+	 // void PrintInfo();
+    };
+/*
+class TTheme
+    {
+       public:
+	  char* thname;
+	  int thnum;
+	  int members[256]; // Номера статей и тем, входящих в данную тему
+	  BufRead *pbrThemes;
+
+	  TTheme( BufRead *Themes );
+	  virtual ~TTheme( );
+	  int ChangeTh( int num );
+	  int ChangeTh( char* name );
+
+	 // данная функция устарела и не используется в этой версии
+	 // void PrintInfo();
+    };
+*/

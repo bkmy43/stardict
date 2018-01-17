@@ -1,0 +1,191 @@
+/* *************************************************************************
+                              STDRUS.RC
+    v2.0
+    Содержит описания языковых ресурсов для русской версии StarDict.
+    (c) В. Перов.
+************************************************************************* */
+
+#include <owl\window.rh>
+#include <owl\mdi.rh>
+#include "sd_defs.h"
+#include "stddef.h"
+
+idIcon ICON "sd.ico"
+
+mnuMainMenu MENU 
+{
+ POPUP " &Энциклопеди\377 "
+ {
+  MENUITEM "&Список статей энциклопедии...", cmShowArticleList
+  MENUITEM "&Список тем энциклопедии...", cmShowThemeList
+  MENUITEM SEPARATOR
+  MENUITEM "Поиск статьи по &кл\376чевым словам...", cmSearchKeyword
+  MENUITEM SEPARATOR
+  MENUITEM "&Вернутьс\377 к предыдущей статье\tGray -", wmMoveBack
+  MENUITEM "&Перейти к следующей статье\tGray +", wmMoveForward
+ }
+
+ POPUP " &Параметры "
+ {
+  MENUITEM "Установка &шрифта статьи...", cmShowFonts
+  MENUITEM "&Внешний вид программы...", cmChangeLook
+  POPUP "&Выбор \377зыка программы"
+  {
+   MENUITEM "&Английский \377зык", cmMakeEnglish
+   MENUITEM "&Русский \377зык", cmMakeRussian, CHECKED
+  }
+
+ }
+
+ POPUP " &Окно "
+ {
+  MENUITEM "Расположить &каскадом", CM_CASCADECHILDREN
+  MENUITEM "Расположить &мозаикой", CM_TILECHILDREN
+  MENUITEM SEPARATOR
+  MENUITEM "&Закрыть все статьи", CM_CLOSECHILDREN
+ }
+
+ POPUP " &Справка "
+ {
+  MENUITEM "&Вызов справки\tF1", cmAbout
+  MENUITEM SEPARATOR
+  MENUITEM "&О программе", cmAboutProgrammers
+ }
+
+ MENUITEM " Вы&xод ", cmQuitDict
+}
+
+// Подсказки:
+STRINGTABLE
+{
+ cmQuitDict, "Выход из программы"
+ cmShowArticleList -1, "Энциклопедия"
+ cmShowArticleList, "Список статей"
+ cmShowThemeList, "Список тем"
+ cmSearchKeyword, "Поиск по кл\376чевым словам"
+ cmShowFonts -1, "Изменение параметров программы"
+ cmShowFonts, "Изменение шрифта статьи"
+ cmChangeLook, "Изменение внешнего вида программы"
+ cmMakeEnglish -1, "Изменение \377зыка сообщений программы"
+ cmMakeEnglish, "Английский \377зык сообщений программы"
+ cmMakeRussian, "Русский \377зык сообщений программы"
+ cmAbout, "Информаци\377 о программе"
+ cmOpenHere, "Открытие текста статьи в текущем окне"
+ cmOpenNew, "Открытие текста статьи в новом окне"
+ wmMoveBack, "Вернутьс\377 к предыдущей статье"
+ wmMoveForward, "Перейти к следу\376щей статье"
+}
+
+// Строки статуса и прочих выводов.
+STRINGTABLE
+{
+ stringStatus, "Star Dictionary v2.0"
+//#if   defined(_STD_ALPHA)
+//    ".Alpha"
+//#elif defined(_STD_BETA)
+//    ".Beta"
+//#endif
+ stringAbout, "О программе"
+ stringError, "StarDict 2.0 internal error. Trace to get information."
+ stringArtCap, "Стать\377"
+ stringCancel, "Отмена"
+ stringLinkHere, "Открыть стать\376 в текущем окне"
+ stringLinkNew, "Открыть стать\376 в новом окне"
+ stringAR_CHOOSEART, "Открывать окно выбора статьи из списка"
+ stringAR_CHOOSEART+1, "Открывать окно выбора темы и статьи"
+ stringAR_CHOOSEART+2, "Открывать окно поиска статьи по ключевому слову"
+ stringAR_CHOOSEART+3, "Не открывать никаких окон"
+ stringAO_WIDEN, "Разворачивать окно статьи"
+ stringAO_WIDEN+1, "Центрировать окно статьи"
+ stringAO_WIDEN+2, "Не изменять размер и положение окна статьи"
+ stringBK_FLECK, "Известняк (мраморизованный)"
+ stringBK_FLECK+1, "Серый камень"
+ stringBK_FLECK+2, "Лабродорит"
+ stringBK_FLECK+3, "Стандартный фон окна"
+}
+
+dlgTheme DIALOG 7, 17, 319, 231
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Выбор темы и статьи"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditTheme, 10, 14, 214, 12
+ LISTBOX idListThemes, 10, 40, 214, 44, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ EDITTEXT idEditArticle, 10, 97, 296, 12
+ LISTBOX idListArticles, 11, 125, 296, 98, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_DISABLENOSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Перейти к статье", IDOK, 236, 14, 73, 16
+ PUSHBUTTON "Отмена", IDCANCEL, 236, 37, 73, 16
+ LTEXT "Темы энциклопедии:", -1, 11, 28, 116, 9, NOT WS_GROUP
+ LTEXT "Название темы:", -1, 11, 4, 82, 9, NOT WS_GROUP
+ LTEXT "Название статьи:", -1, 11, 87, 129, 9, NOT WS_GROUP
+ LTEXT "Статьи, составл\xFF\xFEщие тему:", -1, 11, 114, 153, 9, NOT WS_GROUP
+ PUSHBUTTON "Справка", idHelp, 236, 60, 73, 16
+}
+
+dlgArticle DIALOG 12, 20, 258, 210
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Выбор статьи из списка"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditArticle, 9, 15, 240, 12
+ LISTBOX idListArticles, 9, 42, 239, 140, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Перейти к статье", IDOK, 9, 187, 73, 16
+ PUSHBUTTON "Отмена", IDCANCEL, 91, 187, 73, 16, WS_TABSTOP
+ LTEXT "Название статьи:", -1, 9, 5, 77, 9
+ LTEXT "Список статей:", -1, 9, 30, 77, 9
+ PUSHBUTTON "Справка", idHelp, 173, 187, 73, 16
+}
+
+dlgKeyword DIALOG 7, 17, 319, 231
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Поиск статьи по ключевому слову"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idEditTheme, 10, 14, 214, 12
+ LISTBOX idListThemes, 10, 40, 214, 44, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+ EDITTEXT idEditArticle, 10, 97, 296, 12
+ LISTBOX idListArticles, 11, 125, 296, 98, LBS_NOTIFY | WS_BORDER | LBS_HASSTRINGS | LBS_USETABSTOPS | LBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+ DEFPUSHBUTTON "Перейти к статье", IDOK, 236, 14, 73, 16
+ PUSHBUTTON "Отмена", IDCANCEL, 236, 36, 73, 16
+ LTEXT "Список кл\xFEчевых слов:", -1, 11, 28, 126, 9, NOT WS_GROUP
+ LTEXT "Кл\xFEчевое слово:", -1, 11, 4, 96, 9, NOT WS_GROUP
+ LTEXT "Стать\xFF, содержащее кл\xFEчевое слово:", -1, 11, 87, 168, 9, NOT WS_GROUP
+ LTEXT "Список статей с заданным кл\xFEчевым словом:", -1, 11, 114, 209, 9, NOT WS_GROUP
+ PUSHBUTTON "Справка", idHelp, 236, 58, 73, 16
+}
+
+dlgAbout DIALOG 11, 19, 245, 199
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "О программе"
+FONT 8, "MS Sans Serif"
+{
+ DEFPUSHBUTTON "OK", IDOK, 180, 172, 50, 16, BS_DEFPUSHBUTTON | NOT WS_TABSTOP
+ GROUPBOX "", -1, 9, 6, 226, 104, BS_GROUPBOX
+ LTEXT "StarDict 2.0", -1, 58, 21, 166, 21, WS_BORDER | WS_GROUP
+ LTEXT "%s\n\nРегистрационный номер: %s\nЧисло оставшихся инсталляций: %s", idTxtOwner, 21, 64, 203, 36, WS_BORDER | WS_GROUP
+ GROUPBOX "", -1, 9, 105, 226, 57, BS_GROUPBOX
+ CTEXT "Авторы программы:", -1, 156, 111, 75, 11
+ LTEXT "Автор текстов энциклопедии: Ф. Рожанский", -1, 19, 129, 206, 11
+ LTEXT "Программирование: И. Владимирский, В. Перов.", -1, 19, 141, 206, 11
+ ICON "idIcon", idIconID, 21, 21, 21, 20
+ LTEXT "Лицензией на программный продукт обладает:", -1, 58, 51, 166, 10
+ GROUPBOX "", -1, 151, 105, 84, 17, BS_GROUPBOX
+}
+
+dlgChangeLook DIALOG 9, 21, 216, 128
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Внешний вид энциклопедии"
+FONT 8, "MS Sans Serif"
+{
+ COMBOBOX idAfterRun, 11, 18, 192, 51, CBS_DROPDOWNLIST | WS_TABSTOP
+ COMBOBOX idAfterOpen, 11, 47, 192, 51, CBS_DROPDOWNLIST | WS_TABSTOP
+ DEFPUSHBUTTON "OK", IDOK, 11, 101, 50, 16
+ PUSHBUTTON "Отмена", IDCANCEL, 68, 101, 50, 16
+ LTEXT "После запуска энциклопедии:", -1, 11, 6, 147, 9
+ LTEXT "При открытиии статьи:", -1, 11, 36, 101, 8
+ LTEXT "Фоновый рисунок:", -1, 11, 65, 94, 8
+ COMBOBOX idBackgrounds, 11, 76, 106, 48, CBS_DROPDOWNLIST | WS_TABSTOP
+ CHECKBOX "Вкл\xFEчить подсказки", idShowTips, 121, 76, 82, 12, BS_AUTOCHECKBOX | WS_TABSTOP
+ PUSHBUTTON "Справка", idHelp, 125, 101, 50, 16
+}
+

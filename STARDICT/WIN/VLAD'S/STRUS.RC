@@ -1,0 +1,51 @@
+/* *************************************************************************
+                              STDRUS.RC
+    v2.0
+    Содержит описания языковых ресурсов для русской версии StarDict.
+    (c) В. Перов.
+************************************************************************* */
+
+#include <owl\window.rh>
+#include <owl\mdi.rh>
+#include "stddef.h"
+
+mnuMainMenu MENU
+{
+ POPUP "&Файл"
+ {
+  MENUITEM "&Новое окно", cmNewWindow
+  MENUITEM "Вы&ход", cmQuitDict
+ }
+
+ POPUP "&Ссылки"
+ {
+  MENUITEM "&Показать содержание", cmShowContents
+ }
+
+ MENUITEM "&Параметры", cmShowOptions
+ POPUP "&Окно"
+ {
+  MENUITEM "&Расположить каскадом", cmCascade
+  MENUITEM SEPARATOR
+  MENUITEM "&Закрыть все", cmCloseAll
+ }
+
+ MENUITEM "&О программе", cmAbout, HELP
+}
+
+// Подсказки:
+STRINGTABLE
+{
+ cmAbout, "Информация о программе"
+ cmShowContents, "Окрытие содержание словаря"
+ cmShowOptions, "Параметры функционирования: шрифты, цвета..."
+ cmCascade, "Каскадирование окон"
+ cmNewWindow, "Открытие нового окна"
+ cmCloseAll, "Закрытие всех окон"
+ cmQuitDict, "Выход из программы"
+}
+
+// Строки статуса и прочих выводов.
+STRINGTABLE
+{
+ stringStatus, "Текущий статус программы"

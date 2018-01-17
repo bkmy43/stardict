@@ -1,0 +1,5 @@
+EXETYPE     WINDOWS
+description "FreeDll"
+name        FreeDll
+HEAPSIZE    2000
+STACKSIZE   10000

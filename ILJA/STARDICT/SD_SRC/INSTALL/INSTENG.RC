@@ -1,0 +1,76 @@
+/* *************************************************************************
+                              INSTRUS.RC
+    v1.0
+    Содержит описания языковых ресурсов для английской версии инсталлятора.
+    (c) В. Перов.
+************************************************************************* */
+
+#include "instdef.h"
+
+zzIcon   ICON   "install.ico"
+
+dlgCopying DIALOG 13, 25, 161, 64
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "File copying"
+FONT 8, "MS Sans Serif"
+{
+ GROUPBOX "", -1, 6, 3, 148, 55, BS_GROUPBOX
+ CTEXT "Programme files are being copied..", -1, 21, 26, 118, 21
+}
+
+dlgFinish DIALOG 7, 25, 202, 83
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Installation successfully finished"
+FONT 8, "MS Sans Serif"
+{
+ DEFPUSHBUTTON "OK", IDOK, 76, 60, 50, 16, BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP
+ GROUPBOX "", -1, 9, 2, 184, 51, BS_GROUPBOX
+ CTEXT "StarDict 2.0 installation successfully finished.", -1, 30, 23, 141, 16
+}
+
+dlgAskDriveLetter DIALOG 7, 25, 202, 95
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Drive with key diskette choosing"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "Drive A:", idDriveA, "BUTTON", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 30, 39, 64, 12
+ CONTROL "Drive B:", idDriveB, "BUTTON", BS_AUTORADIOBUTTON | WS_TABSTOP, 107, 39, 64, 12
+ DEFPUSHBUTTON "Continue", IDOK, 11, 69, 50, 16, WS_GROUP | BS_DEFPUSHBUTTON | WS_TABSTOP
+ PUSHBUTTON "Cancel", IDCANCEL, 74, 69, 50, 16
+ CTEXT "Choose drive where the key diskette is placed:", -1, 25, 14, 153, 18
+ GROUPBOX "", -1, 9, 4, 184, 55, BS_GROUPBOX
+}
+
+
+dlgAskInfo DIALOG 13, 18, 233, 160
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Information for installation"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT idUserName, 23, 23, 188, 12, WS_BORDER | WS_TABSTOP
+ CONTROL "C:\\STARDICT\\", idSDDirectory, "EDIT", WS_BORDER | WS_TABSTOP, 23, 50, 188, 12
+ CONTROL "StarDict 2.0", idGroupName, "EDIT", WS_BORDER | WS_TABSTOP, 23, 75, 188, 12
+ DEFPUSHBUTTON "Continue", IDOK, 10, 135, 50, 16, BS_DEFPUSHBUTTON | WS_TABSTOP
+ PUSHBUTTON "Cancel", IDCANCEL, 72, 135, 50, 16
+ LTEXT "User name (not less than 6 symbols):", -1, 23, 14, 172, 8
+ LTEXT "Programme directory:", -1, 23, 40, 129, 8
+ LTEXT "Group name:", -1, 23, 66, 129, 8
+ GROUPBOX "", -1, 10, 4, 212, 123, BS_GROUPBOX
+ LTEXT "Number of installations left:", -1, 23, 93, 112, 11
+ LTEXT "Registration number:", -1, 23, 108, 112, 11
+ RTEXT "", idNumInst, 148, 93, 63, 11, SS_RIGHT | WS_BORDER | WS_GROUP
+ RTEXT "", idRegNum, 148, 108, 63, 11, SS_RIGHT | WS_BORDER | WS_GROUP
+}
+
+dlgPlans DIALOG 9, 18, 261, 138
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Operations by StarDict 2.0 installer"
+FONT 8, "MS Sans Serif"
+{
+ DEFPUSHBUTTON "Continue", IDOK, 10, 115, 50, 16, BS_DEFPUSHBUTTON | WS_TABSTOP
+ PUSHBUTTON "Cancel", IDCANCEL, 71, 115, 50, 16
+ LTEXT "This programme will install StarDict 2.0 onto Your computer.\n\nYou will need the key diskette to install StarDict 2.0. Do not remove the key diskette from floppy drive until installation cancels!\n\nDuring the process the number of installations left will be decreased by 1.", -1, 50, 14, 192, 84
+ GROUPBOX "", -1, 10, 3, 241, 103, BS_GROUPBOX
+ ICON "zzIcon", -1, 18, 14, 21, 20
+}
+

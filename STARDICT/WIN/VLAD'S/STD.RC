@@ -1,0 +1,16 @@
+/****************************************************************************
+STD.RC
+produced by Borland Resource Workshop
+*****************************************************************************/
+
+#include <owl\window.rh>
+#include "stddef.h"
+
+icoStarDict  icon    "icon.ico"
+curStarDict  cursor  "cursor.cur"
+
+
+bmpAbout BITMAP "about.bmp"
+bmpContents BITMAP "contents.bmp"
+bmpExit BITMAP "exit.bmp"
+

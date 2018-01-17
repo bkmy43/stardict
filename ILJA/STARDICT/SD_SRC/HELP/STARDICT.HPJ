@@ -1,0 +1,14 @@
+
+[OPTIONS]
+ERRORLOG=STARDICT.ERR
+COMPRESS=NO
+CONTENTS=hlp_content
+TITLE=•ä§ïÜçÖ ãåçåóä ãå Stardict 2.0
+[WINDOWS]
+main=,,0,,,0
+
+[FILES]
+STARDICT.RTF
+
+[MAP]
+#include <SDCONT.H>

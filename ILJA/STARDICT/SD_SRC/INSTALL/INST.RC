@@ -1,0 +1,26 @@
+/****************************************************************************
+INST.RC
+produced by Borland Resource Workshop
+*****************************************************************************/
+
+#include "instdef.h"
+
+icoInstall       ICON  "install.ico"
+
+bmpTriangle      BITMAP      "..\red_tri.bmp"
+bmpSD            BITMAP      "sd.bmp"
+bmpSDmono        BITMAP      "sd-m.bmp"
+
+dlgAskLang DIALOG 7, 15, 239, 124
+STYLE DS_MODALFRAME | 0x4L | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Language choosing: Выбор языка"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "Русский \xFFзык", idRussianLang, "BUTTON", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 80, 54, 79, 12
+ CONTROL "English language", idEnglishLang, "BUTTON", BS_AUTORADIOBUTTON | WS_TABSTOP, 80, 69, 79, 12
+ DEFPUSHBUTTON "OK", IDOK, 13, 99, 50, 16, BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP
+ PUSHBUTTON "Cancel", IDCANCEL, 76, 99, 50, 16, WS_TABSTOP
+ CTEXT "Choose programme messages language.\nIf You wish, You will be able to change it later.", -1, 17, 15, 205, 16, SS_CENTER | NOT WS_GROUP
+ GROUPBOX "", -1, 8, 5, 223, 84, BS_GROUPBOX
+ CTEXT "Выберите язык сообщений программы.\nПри желании, Вы сможете изменить язык позже.", -1, 17, 34, 205, 16, SS_CENTER | NOT WS_GROUP
+}
